@@ -26,14 +26,20 @@ from crud import (
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Wish List API", version="1.0.0")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+app = FastAPI(
+    title="Wish List API",
+    version="1.0.0",
+    docs_url="/api/docs",
+    openapi_url="/api/openapi.json",
 )
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 
 load_dotenv(override=False)
@@ -45,15 +51,19 @@ origins = [origin.strip() for origin in ALLOWED_ORIGINS.split(",")]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+redis_env_url = os.getenv("REDIS_URL")
+if redis_env_url:
+    REDIS_URL = redis_env_url
+else:
+    REDIS_URL = "redis://redis:6379" if ENVIRONMENT.lower() == "docker" else "redis://localhost:6379"
+
 redis_client = redis.from_url(REDIS_URL, decode_responses=True)
-# ssl_cert_reqs="none" - Disable SSL certificate verification for Upstash
 
 
 

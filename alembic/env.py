@@ -16,7 +16,7 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_NAME = os.getenv("DB_NAME")
 
-DATABASE_URL = f" postgresql://username:password@postgres/wishlist_db"
+DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 
 config = context.config
 config.set_main_option("sqlalchemy.url", DATABASE_URL)

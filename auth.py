@@ -13,8 +13,8 @@ from models import User
 
 load_dotenv(override=False)
 
-SECRET_KEY = os.getenv("SECRET_KEY", "your-super-secret-key-change-in-production")  # Default, but should be overridden in production
-ALGORITHM = os.getenv("ALGORITHM", "HS256")
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30)
 DB_NAME = os.getenv("DB_NAME")
 
